@@ -1,3 +1,4 @@
+  var previous = localStorage['wikitracker_previous'];
   var VisitedSite = StackMob.Model.extend({
     schemaName: 'visitedsites' 
   });
@@ -7,18 +8,12 @@
   vs.create({
     success: function(model) {
       console.debug(model.get('url')); 
- 
-      //StackMob auto generates a unique ID for your object
-      //after creating it server-side in the format of [schemaName]_id
-      console.debug('ID is: ' + model.get('todo_id'));
- 
-      //And let's fetch the task from StackMob again AFTER the object has been saved server side for sake of example.
-      vs.fetch({
+      var prev = new VisitedSite({ visitedsites_id: localStorage['wikitracker_previous'] });
+      prev.fetch({
         success: function(model) {
-          console.debug(model.toJSON());
+          alert(model.get('url'));
         }
       });
+      localStorage['wikitracker_previous'] = model.get('visitedsites_id');
     }
   });
-  
-  console.debug('test');
